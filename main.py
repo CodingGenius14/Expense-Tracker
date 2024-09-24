@@ -1,4 +1,4 @@
-ACTION_PROMPT = "Enter (1) to add an expense | (2) to view expenses | (3) to delete an expense | (4) to reset your expenses | or (5) for a summary of your expenses: "
+ACTION_PROMPT = "Enter (1) to add an expense | (2) to view expenses | (3) to delete an expense | or (4) to reset your expenses: "
 DEL_CATEGORY_PROMPT = "Enter the Category you want to delete from: "
 
 
@@ -20,7 +20,7 @@ def select_action():
 
 def adding_expense():
         while True:
-            category = input("Enter the category of the expense (e.g, food, transportation, entertainment, E.T.C): ")
+            category = input("Enter the category of the expense (e.g, food, transportation, entertainment, E.T.C): ").capitalize().strip()
 
             while True:
                 try: 
@@ -28,8 +28,6 @@ def adding_expense():
                     break
                 except ValueError:
                     print("Invalid input")
-
-
 
             if category not in expenses:
                 expenses[category] = [value]
@@ -94,6 +92,18 @@ def main(action):
     elif action == "4":
         reset_all_expenses()
 
+
+def summary():
+    print("\nThank you for using the expense tracker!")
+    if expenses:
+        print("Here is a summary of your total expenses per category:\n")
+        for category in expenses.keys():
+            total = sum(expenses[category])
+            print(f"{category} total: ${total}")
+    else:
+         print("You don't have any expenses!")
+    print(f"Your most expensive purchase was ${max(max(expenses.values()))}")
+    
     
 greeting()
 
@@ -102,5 +112,5 @@ while True:
     main(action)
     program_control = input("Enter (y) to continue using the expense tracker or (e) to exit the program: ").lower()
     if program_control == "e":
-            print("Thank you for using the expense tracker, have a great day!")
+            summary()
             break
